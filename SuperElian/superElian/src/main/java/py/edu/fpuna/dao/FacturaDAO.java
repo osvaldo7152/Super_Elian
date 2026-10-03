@@ -1,22 +1,37 @@
 package py.edu.fpuna.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import py.edu.fpuna.entities.Factura;
 
 public class FacturaDAO {
+    // Cambia "postgres" y "admin" por tu usuario y contraseña real de PostgreSQL
+    private static final String URL = "jdbc:postgresql://localhost:5432/super_elian_db";
+    private static final String USER = "postgres"; 
+    private static final String PASSWORD = "admin";
 
     public boolean registrarFactura(Factura factura) {
-        try {
-            // TODO: Aquí iría tu código JDBC (INSERT INTO facturas ...) para guardar en PostgreSQL
+        String sql = "INSERT INTO facturas (id_compra, monto_total, fecha) VALUES (?, ?, ?)";
+        
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            System.out.println(">> [Sistema Contable Local] Registrando factura en base de datos...");
-            System.out.println("   ID Compra: " + factura.getIdCompra());
-            System.out.println("   Monto Total: $" + factura.getMontoTotal());
-            System.out.println("   Fecha: " + factura.getFecha());
+            pstmt.setInt(1, factura.getIdCompra());
+            pstmt.setInt(2, factura.getMontoTotal());
+            pstmt.setString(3, factura.getFecha());
             
-            return true; // Simula que se guardó con éxito en la BD de superElian
-        } catch (Exception e) {
-            System.err.println("Error al guardar la factura en la BD local: " + e.getMessage());
-            return false;
+            int filasAfectadas = pstmt.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                System.out.println(">> [DB Super Elian] Factura de la compra #" + factura.getIdCompra() + " guardada en PostgreSQL exitosamente.");
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al guardar en PostgreSQL (Super Elian): " + e.getMessage());
         }
+        return false;
     }
 }
