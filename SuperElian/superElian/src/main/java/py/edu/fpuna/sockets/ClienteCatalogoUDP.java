@@ -1,14 +1,15 @@
 package py.edu.fpuna.sockets;
 
-import com.google.gson.Gson;
-import py.edu.fpuna.dto.MensajeClienteStock;
-import py.edu.fpuna.dto.MensajeServidor;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class ClienteStockUDP {
+import com.google.gson.Gson;
+
+import py.edu.fpuna.dto.MensajeClienteStock;
+import py.edu.fpuna.dto.MensajeServidor;
+
+public class ClienteCatalogoUDP {
     private static final int SERVER_PORT = 9000;
     private static final String SERVER_IP = "localhost"; // Cambiar por IP si Osvamu está en otra red
 
