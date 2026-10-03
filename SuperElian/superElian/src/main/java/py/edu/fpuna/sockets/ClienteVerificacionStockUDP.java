@@ -1,24 +1,25 @@
 package py.edu.fpuna.sockets;
 
-import com.google.gson.Gson;
-import py.edu.fpuna.dto.MensajeServidor;
-import py.edu.fpuna.dto.MensajeVerificarStock;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+
+import py.edu.fpuna.dto.MensajeServidor;
+import py.edu.fpuna.dto.MensajeVerificarStock;
 
 public class ClienteVerificacionStockUDP {
     private static final int SERVER_PORT = 9001; // Nuevo puerto exclusivo para verificar stock
     private static final String SERVER_IP = "localhost";
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.print("Ingrese el ID del producto para verificar si hay stock: ");
-        int idProd = scanner.nextInt();
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Ingrese el ID del producto para verificar si hay stock: ");
+            int idProd = scanner.nextInt();
 
-        try (DatagramSocket socket = new DatagramSocket()) {
+            try (DatagramSocket socket = new DatagramSocket()) {
             socket.setSoTimeout(5000);
             Gson gson = new Gson();
             InetAddress serverAddress = InetAddress.getByName(SERVER_IP);
@@ -41,6 +42,7 @@ public class ClienteVerificacionStockUDP {
             System.out.println("Estado: " + respuesta.getTipo());
             System.out.println("Detalle: " + respuesta.getMensaje());
 
+            }
         } catch (Exception e) {
             System.err.println("Error verificando stock: " + e.getMessage());
         }

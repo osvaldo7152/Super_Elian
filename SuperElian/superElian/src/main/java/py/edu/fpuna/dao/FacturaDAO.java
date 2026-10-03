@@ -10,8 +10,8 @@ import py.edu.fpuna.entities.Factura;
 public class FacturaDAO {
     // Cambia "postgres" y "admin" por tu usuario y contraseña real de PostgreSQL
     private static final String URL = "jdbc:postgresql://localhost:5432/super_elian_db";
-    private static final String USER = "postgres"; 
-    private static final String PASSWORD = "admin";
+    private static final String USER = "admin"; 
+    private static final String PASSWORD = "123";
 
     public boolean registrarFactura(Factura factura) {
         String sql = "INSERT INTO facturas (id_compra, monto_total, fecha) VALUES (?, ?, ?)";
